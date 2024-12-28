@@ -9,6 +9,7 @@ char Look;
 
 void GetChar(){
     Look = Convert.ToChar(Console.Read());
+    Console.WriteLine($"got: {Look}");
 }
 
 void Error(string s) {
@@ -53,12 +54,11 @@ char GetNum(){
     if (!IsDigit(Look)){
         Expected("Integer");
     }
-    GetChar();
     return Look;
 }
 
 void Emit(string s){
-    Console.Write($"{TAB}s");
+    Console.Write($"{TAB}{s}");
 }
 
 void EmitLn(string s){
@@ -66,12 +66,15 @@ void EmitLn(string s){
 }
 
 void Init(){
-    GetChar();
+   GetChar();
+}
+
+void Expression(){
+    EmitLn($"mov	w8, #{GetNum()}");
 }
 
 // Starts the program
 Init();
-
-
+Expression();
 
 
