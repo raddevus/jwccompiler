@@ -53,12 +53,11 @@ char GetNum(){
     if (!IsDigit(Look)){
         Expected("Integer");
     }
-    GetChar();
     return Look;
 }
 
 void Emit(string s){
-    Console.Write($"{TAB}s");
+    Console.Write($"{TAB}{s}");
 }
 
 void EmitLn(string s){
