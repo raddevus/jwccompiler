@@ -65,3 +65,17 @@ Once you obtain the output from the GCC compiler using the command to generate t
 
 That will create an exe named basic by using the basic.o and the linker (ld).
 
+### Alter the ASM & Re-compile It
+
+You could take the `basic.s` file above, make a change and then recompile it to its `basic.o` file and then relink it to create the final exe.<br>
+For example, let's add 5 (increment) to w8.<br>
+1. after the `mov w8, #4` line, add the following line of code: `add  w8, w8, #5`
+2. that new line adds 5 to the current value in w8 (4) and then stores the result in w8
+3. now recompile the basic.s file with `asm basic.s -o basic.o`
+4. link the file again (to create the exe) ld basic.o -o basic
+5. run it and get the return value (value last stored in w8) : `$ ./basic`
+6. echo the last return value: `$ echo $?`
+7. You should see the value 9
+
+That's it!  
+
