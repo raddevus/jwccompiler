@@ -1,7 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Collections;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 
 const char TAB = '\t';
@@ -33,7 +35,7 @@ void Match(char x){
         GetChar();
         return;
     }
-    Expected($"''{x}''");
+    Expected($"'{x}'");
 }
 
 bool IsAlpha(char c){
@@ -54,7 +56,9 @@ char GetNum(){
     if (!IsDigit(Look)){
         Expected("Integer");
     }
-    return Look;
+    char retVal = Look;
+    GetChar();
+    return retVal;
 }
 
 void Emit(string s){
@@ -69,12 +73,45 @@ void Init(){
    GetChar();
 }
 
-void Expression(){
+void Term(){
     EmitLn($"mov	w8, #{GetNum()}");
+}
+
+void Expression(){
+    Term();
+    EmitLn($"mov	w9, w8");
+    switch (Look){
+        case '+':{
+            Add();
+            break;
+        }
+        case '-':{
+            Subtract();
+            break;
+        }
+        default:{
+            Expected($"Addop");
+            break;
+        }
+    }
+}
+
+void Add(){
+    Match('+');
+    Term();
+    EmitLn($"add	w9, w8, w9");
+}
+
+void Subtract(){
+    Match('-');
+    Term();
+    EmitLn($"sub	w9, w9, w8");
 }
 
 // Starts the program
 Init();
 Expression();
+Expression();
+//Add();
 
 
